@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,11 +14,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/hello/{name?}', function ($name = 'guest') {
-    return view('hello', ['name' => $name]);
+    // If user logged in display home page
+    if (Auth::check()) {
+        return redirect()->route('home');
+    }
+    // else display welcome page
+    else {
+        return view('welcome');
+    }
 });
 
 Auth::routes();
