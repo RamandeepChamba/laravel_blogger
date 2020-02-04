@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Blog;
 use App\User;
+use App\Like;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Foreach_;
 
@@ -60,5 +61,32 @@ class BlogController extends Controller
         else {
             return abort(404);
         }
+    }
+
+    public function like(Request $request)
+    {
+        $blogId = $request->input('blogId');
+        $userId = Auth::id();
+
+        // If already liked, dislike else like
+        $like = Like::where('blog_id', $blogId)
+            ->where('user_id', $userId);
+        
+        if ($like->exists()) {
+            // dislike
+            $like->delete();
+        } else {
+            // like
+            $like = new Like;
+            $like->blog_id = $blogId;
+            $like->user_id = $userId;
+            $like->save();
+
+            // Notify blog's author
+            // TODO
+        }
+
+        return redirect("/blogs/$blogId");
+        
     }
 }

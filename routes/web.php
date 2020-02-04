@@ -34,3 +34,5 @@ Route::post('/blogs', 'BlogController@store')
     ->name('blogs.store');
 Route::get('/blogs/{blog}', 'BlogController@show')
     ->name('blogs.show');
+Route::post('/blogs/like', 'BlogController@like')
+    ->name('blogs.like');

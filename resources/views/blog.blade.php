@@ -10,8 +10,16 @@
             <hr>
             <p>{{ $blog->content }}</p>
             <hr>
-            <a href="#">Like</a>
-            <span> 0</span><hr><br>
+
+            <form action="/blogs/like" method="POST" name="like">
+                @csrf
+                <input type="text" name="blogId" 
+                    value="{{ $blog->id }}" hidden>
+                <button type="submit">Like</button>
+                <span> {{ count($blog->likes) }}</span>
+            </form>
+            
+            <hr>
             <h5>Comments <span>0</span></h5>
             
             <textarea name="comment" cols="30" rows="10"
