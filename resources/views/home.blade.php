@@ -26,6 +26,10 @@
                 <div class="card mb-3">  
                     <div class="card-body">
                         <h3>{{ $blog->title }}</h3>
+                        <strong>~ </strong>
+                        <a href="/users/{{ $blog->user->id }}">
+                            {{ $blog->user->name }}
+                        </a>
                         <hr>
                         <p>{{ $blog->description }}</p>
                         <a href="/blogs/{{ $blog->id }}" 

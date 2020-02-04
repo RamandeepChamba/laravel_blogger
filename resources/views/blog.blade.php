@@ -15,7 +15,7 @@
                 @csrf
                 <input type="text" name="blogId" 
                     value="{{ $blog->id }}" hidden>
-                <button type="submit">Like</button>
+                <button type="submit">{{ $liked ? 'Dislike' : 'Like' }}</button>
                 <span> {{ count($blog->likes) }}</span>
             </form>
             

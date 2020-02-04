@@ -21,6 +21,15 @@ class BlogController extends Controller
         $this->middleware('auth');
     }
 
+    // Return like info (if liked) on blog
+    public function getLike($blogId)
+    {
+        $userId = Auth::id();
+        $like = Like::where('blog_id', $blogId)
+            ->where('user_id', $userId);
+        return $like;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -50,13 +59,19 @@ class BlogController extends Controller
         return redirect()->route('home');
     }
 
-    public function show($blog)
+    public function show($blogId)
     {
         // Grab the blog
-        $blog = Blog::find($blog);
+        $blog = Blog::find($blogId);
         if (isset($blog)) {
+            // Check if current user liked this blog
+            $liked = $this->getLike($blogId)->exists();
             // View blog
-            return view('blog', ['blog' => $blog]);
+            return view('blog', 
+                [
+                    'blog' => $blog, 
+                    'liked' => $liked
+                ]);
         }
         else {
             return abort(404);
@@ -69,8 +84,7 @@ class BlogController extends Controller
         $userId = Auth::id();
 
         // If already liked, dislike else like
-        $like = Like::where('blog_id', $blogId)
-            ->where('user_id', $userId);
+        $like = $this->getLike($blogId);
         
         if ($like->exists()) {
             // dislike

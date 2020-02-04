@@ -22,10 +22,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
         // Grab user blogs
-        $blogs = Auth::user()->blogs;
+        $blogs = \App\Blog::all();
         return view('home', ['blogs' => $blogs]);
     }
 }
