@@ -26,4 +26,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')
+    ->name('home');
+Route::get('/blogs/create', 'BlogController@create')
+    ->name('blogs.create');
+Route::post('/blogs', 'BlogController@store')
+    ->name('blogs.store');
+Route::get('/blogs/{blog}', 'BlogController@show')
+    ->name('blogs.show');
