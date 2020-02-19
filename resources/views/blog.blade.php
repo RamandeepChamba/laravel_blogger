@@ -6,11 +6,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            
+            <!-- Blog -->
             <h1>{{ $blog->title }}</h1>
             <hr>
             <p>{{ $blog->content }}</p>
             <hr>
 
+            <!-- Like blog -->
             <form action="/blogs/like" method="POST" name="like">
                 @csrf
                 <input type="text" name="blogId" 
@@ -21,10 +24,18 @@
             
             <hr>
             <h5>Comments <span>0</span></h5>
-            
-            <textarea name="comment" cols="30" rows="10"
-                placeholder="Add your comment here"></textarea>
-            <button>Comment</button>
+
+            <!-- Comment Form -->
+            @include('blogs.commentForm', ['blog_id' => $blog->id])
+
+            <!-- Comments -->
+            <ul id="comments">
+                @include('blogs.commentsDisplay', 
+                    [
+                        'comments' => $blog->comments,
+                        'blog_id' => $blog->id
+                    ])
+            </ul>
         </div>
     </div>
 </div>

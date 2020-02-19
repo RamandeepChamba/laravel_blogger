@@ -36,3 +36,5 @@ Route::get('/blogs/{blog}', 'BlogController@show')
     ->name('blogs.show');
 Route::post('/blogs/like', 'BlogController@like')
     ->name('blogs.like');
+Route::post('/comments', 'CommentController@store')
+    ->name('comments.store');

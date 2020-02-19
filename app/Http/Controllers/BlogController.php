@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Blog;
 use App\User;
 use App\Like;
-use Illuminate\Support\Facades\Auth;
+use App\Comment;
 use PhpParser\Node\Stmt\Foreach_;
 
 class BlogController extends Controller
@@ -24,7 +24,7 @@ class BlogController extends Controller
     // Return like info (if liked) on blog
     public function getLike($blogId)
     {
-        $userId = Auth::id();
+        $userId = auth()->user()->id;
         $like = Like::where('blog_id', $blogId)
             ->where('user_id', $userId);
         return $like;
@@ -53,7 +53,7 @@ class BlogController extends Controller
         }
      
         // Add blog info to db
-        $user = User::find(Auth::id());
+        $user = User::find(auth()->user()->id);
         $user->blogs()->save($blog);
 
         return redirect()->route('home');
@@ -81,7 +81,7 @@ class BlogController extends Controller
     public function like(Request $request)
     {
         $blogId = $request->input('blogId');
-        $userId = Auth::id();
+        $userId = auth()->user()->id;
 
         // If already liked, dislike else like
         $like = $this->getLike($blogId);
@@ -101,6 +101,5 @@ class BlogController extends Controller
         }
 
         return redirect("/blogs/$blogId");
-        
     }
 }
