@@ -26,11 +26,11 @@
             <h5>Comments <span>0</span></h5>
 
             <!-- Comment Form -->
-            @include('blogs.commentForm', ['blog_id' => $blog->id])
+            @include('comments.form', ['blog_id' => $blog->id])
 
             <!-- Comments -->
             <ul id="comments">
-                @include('blogs.commentsDisplay', 
+                @include('comments.show', 
                     [
                         'comments' => $blog->comments,
                         'blog_id' => $blog->id
