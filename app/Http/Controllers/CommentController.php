@@ -16,4 +16,16 @@ class CommentController extends Controller
 
         return back();
     }
+
+    public function getReplyForm(Request $request)
+    {
+        $blog_id = $request->blog_id;
+        $parent_id = $request->parent_id;
+        
+        return view('comments.form', 
+        [
+            'blog_id' => $blog_id,
+            'parent_id' => $parent_id
+        ]);
+    }
 }

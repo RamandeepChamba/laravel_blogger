@@ -1,4 +1,5 @@
-<form action="{{ route('comments.store') }}" method="POST" name="comment">
+<form action="{{ route('comments.store') }}" method="POST" 
+    name="{{ isset($parent_id) ? 'reply' : 'comment' }}">
     @csrf
     <input type="text" name="blog_id" 
         value="{{ $blog_id }}" hidden>

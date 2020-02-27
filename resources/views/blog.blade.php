@@ -23,10 +23,10 @@
             </form>
             
             <hr>
-            <h5>Comments <span>0</span></h5>
+            <h5>Comments <span>{{ count($blog->comments) }}</span></h5>
 
             <!-- Comment Form -->
-            @include('comments.form', ['blog_id' => $blog->id])
+            @include('comments.form', ['blog_id' => $blog->id, 'commentForm' => 1])
 
             <!-- Comments -->
             <ul id="comments">

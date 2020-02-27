@@ -1,6 +1,6 @@
 @foreach ($comments as $comment)     
     <li class="{{ ($comment->parent_id != null) 
-        ? 'reply ml-5' : 'comment'}} mt-3">
+        ? 'reply ml-3' : 'comment'}} mt-3">
         <!-- Comment -->
         <p class="mb-0">{{ $comment->comment }}</p>
         <a href="/users/{{ $comment->user_id }}">
@@ -10,11 +10,10 @@
         <button>Like</button>
 
         <!-- Reply Form -->
-        @include('comments.form', 
-            [
-                'blog_id' => $blog_id, 
-                'parent_id' => $comment->id
-            ])
+        <button class="renderForm" data-blog_id="{{ $blog_id }}"
+            data-parent_id="{{ $comment->id }}">
+            Reply
+        </button>
 
         <!-- Replies -->
         @if(isset($comment->replies[0]))

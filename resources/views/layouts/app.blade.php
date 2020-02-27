@@ -83,5 +83,6 @@
             @yield('content')
         </main>
     </div>
+    <script src="{{ asset('js/all.js') }}" defer></script>
 </body>
 </html>

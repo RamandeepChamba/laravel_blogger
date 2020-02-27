@@ -38,3 +38,5 @@ Route::post('/blogs/like', 'BlogController@like')
     ->name('blogs.like');
 Route::post('/comments', 'CommentController@store')
     ->name('comments.store');
+Route::post('/comments/getReplyForm', 'CommentController@getReplyForm')
+    ->name('comments.create');
