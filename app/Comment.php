@@ -27,4 +27,9 @@ class Comment extends Model
     {
         return $this->hasMany('App\Comment', 'parent_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
 }

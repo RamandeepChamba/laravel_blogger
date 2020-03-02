@@ -40,3 +40,7 @@ Route::post('/comments', 'CommentController@store')
     ->name('comments.store');
 Route::post('/comments/getReplyForm', 'CommentController@getReplyForm')
     ->name('comments.create');
+Route::post('/comments/like', 'CommentController@like')
+    ->name('comments.like');
+Route::get('/comments/delete/{comment_id}', 'CommentController@delete')
+    ->name('comments.delete');

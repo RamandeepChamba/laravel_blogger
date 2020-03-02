@@ -4,6 +4,7 @@ document.getElementById('app').addEventListener('click', function (e) {
         // Prevent double click
         e.target.innerHTML = 'Wait...';
         e.target.disabled = true;
+
         // Render Form
         function renderForm(form, formToggleButton) {
             formToggleButton.insertAdjacentHTML('beforebegin', form);
@@ -15,6 +16,16 @@ document.getElementById('app').addEventListener('click', function (e) {
         }
         
         // - Make Ajax call and get form
+        function makeRequest(url, data, formToggleButton) {
+          axios.post(url, data)
+            .then(function (response) {
+              renderForm(response.data, formToggleButton);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        
         // -- Send blog and parent id
         const url = '/comments/getReplyForm';
         const reply = {};
@@ -36,16 +47,5 @@ document.getElementById('app').addEventListener('click', function (e) {
         e.target.innerHTML = 'Reply';
 
         e.target.disabled = false;
-    }
-
-    function makeRequest(url, data, formToggleButton) {
-        axios.post(url, data)
-          .then(function (response) {
-            console.log(response);
-            renderForm(response.data, formToggleButton);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
     }
 });

@@ -22,7 +22,7 @@ class BlogController extends Controller
     }
 
     // Return like info (if liked) on blog
-    public function getLike($blogId)
+    private function getLike($blogId)
     {
         $userId = auth()->user()->id;
         $like = Like::where('blog_id', $blogId)
@@ -64,13 +64,10 @@ class BlogController extends Controller
         // Grab the blog
         $blog = Blog::find($blogId);
         if (isset($blog)) {
-            // Check if current user liked this blog
-            $liked = $this->getLike($blogId)->exists();
             // View blog
             return view('blog', 
                 [
-                    'blog' => $blog, 
-                    'liked' => $liked
+                    'blog' => $blog
                 ]);
         }
         else {
@@ -84,9 +81,9 @@ class BlogController extends Controller
         $userId = auth()->user()->id;
 
         // If already liked, dislike else like
-        $like = $this->getLike($blogId);
+        $like = Blog::find($blogId)->likes->where('user_id', $userId)->first();
         
-        if ($like->exists()) {
+        if ($like) {
             // dislike
             $like->delete();
         } else {

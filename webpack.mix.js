@@ -13,6 +13,11 @@ const mix = require('laravel-mix');
 
 mix.react('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');
+/*
 mix.scripts([
    'resources/js/viewReplyForm.js'
 ], 'public/js/all.js');
+*/
+
+mix.js('resources/js/viewReplyForm.js', 'public/js')
+    .version();

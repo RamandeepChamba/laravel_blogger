@@ -18,7 +18,14 @@
                 @csrf
                 <input type="text" name="blogId" 
                     value="{{ $blog->id }}" hidden>
-                <button type="submit">{{ $liked ? 'Dislike' : 'Like' }}</button>
+                    @if ($blog->likes->contains('user_id', auth()->user()->id))
+                        <button type="submit" class="btn btn-warning">
+                            Dislike
+                    @else
+                        <button type="submit" class="btn btn-primary">
+                            Like
+                    @endif
+                        </button>
                 <span> {{ count($blog->likes) }}</span>
             </form>
             

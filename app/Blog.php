@@ -19,7 +19,7 @@ class Blog extends Model
     
     public function likes()
     {
-        return $this->hasMany('App\Like');
+        return $this->hasMany('App\Like')->whereNull('comment_id');
     }
 
     public function comments()

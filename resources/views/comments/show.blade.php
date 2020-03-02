@@ -7,10 +7,32 @@
             {{ $comment->user->name }}
         </a>
         <br>
-        <button>Like</button>
+        <!-- Like comment -->
+        <form action="/comments/like" method="POST" name="like">
+            @csrf
+            <input type="text" name="comment_id" 
+                value="{{ $comment->id }}" hidden>
+            <input type="text" name="blog_id" 
+                value="{{ $comment->blog->id }}" hidden>
+            @if ($comment->likes->contains('user_id', auth()->user()->id))
+                <button type="submit" class="btn btn-warning">
+                    Dislike
+            @else
+                <button type="submit" class="btn btn-primary">
+                    Like
+            @endif
+                </button>
+
+            <span> {{ count($comment->likes) }}</span>
+        </form>
+
+        <!-- Delete comment  -->
+        @if(auth()->user()->id == $comment->user->id)
+            <a href="/comments/delete/{{ $comment->id }}" class="btn btn-danger">Delete</a>
+        @endif
 
         <!-- Reply Form -->
-        <button class="renderForm" data-blog_id="{{ $blog_id }}"
+        <button class="renderForm btn btn-secondary" data-blog_id="{{ $blog_id }}"
             data-parent_id="{{ $comment->id }}">
             Reply
         </button>
