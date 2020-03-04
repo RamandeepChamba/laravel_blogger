@@ -28,12 +28,23 @@
                         <h3>{{ $blog->title }}</h3>
                         <strong>~ </strong>
                         <a href="/users/{{ $blog->user->id }}">
-                            {{ $blog->user->name }}
+                            @if(auth()->user()->id == $blog->user->id)
+                                You
+                            @else
+                                {{ $blog->user->name }}
+                            @endif
                         </a>
                         <hr>
                         <p>{{ $blog->description }}</p>
+                        <!-- View Blog -->
                         <a href="/blogs/{{ $blog->id }}" 
                             class="btn btn-primary">View</a>
+                        @if(auth()->user()->id == $blog->user->id)
+                            <!-- Delete Blog  -->
+                            <a href="/blogs/delete/{{ $blog->id }}" class="btn btn-danger">Delete</a>
+                            <!-- Edit Blog  -->
+                            <a href="/blogs/{{ $blog->id }}/edit" class="btn btn-secondary">Edit</a>
+                        @endif
                     </div>
                 </div>
             @empty

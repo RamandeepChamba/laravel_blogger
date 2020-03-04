@@ -33,7 +33,11 @@
             <h5>Comments <span>{{ count($blog->comments) }}</span></h5>
 
             <!-- Comment Form -->
-            @include('comments.form', ['blog_id' => $blog->id, 'commentForm' => 1])
+            @include('comments.form', [
+                'comment' => (object) [
+                    'blog_id' => $blog->id
+                ]
+            ])
 
             <!-- Comments -->
             <ul id="comments">

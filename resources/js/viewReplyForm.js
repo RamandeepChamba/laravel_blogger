@@ -1,6 +1,7 @@
 document.getElementById('app').addEventListener('click', function (e) {
-
-    if(e.target.classList.contains('renderForm')) {
+    let clist = e.target.classList;
+    if(clist.contains('renderReplyForm') || clist.contains('renderEditForm')) {
+        $editing = clist.contains('renderEditForm');
         // Prevent double click
         e.target.innerHTML = 'Wait...';
         e.target.disabled = true;
@@ -8,11 +9,11 @@ document.getElementById('app').addEventListener('click', function (e) {
         // Render Form
         function renderForm(form, formToggleButton) {
             formToggleButton.insertAdjacentHTML('beforebegin', form);
-            e.target.disabled = false;
+            formToggleButton.disabled = false;
             // Toggle button
-            e.target.classList.remove('renderForm');
-            e.target.classList.add('cancelForm');
-            e.target.innerHTML = 'Cancel';
+            formToggleButton.classList.remove($editing ? 'renderEditForm' : 'renderReplyForm');
+            formToggleButton.classList.add($editing ? 'cancelEditForm' : 'cancelReplyForm');
+            formToggleButton.innerHTML = 'Cancel';
         }
         
         // - Make Ajax call and get form
@@ -27,24 +28,30 @@ document.getElementById('app').addEventListener('click', function (e) {
         }
         
         // -- Send blog and parent id
-        const url = '/comments/getReplyForm';
-        const reply = {};
-        reply['parent_id'] = e.target.dataset.parent_id;
-        reply['blog_id'] = e.target.dataset.blog_id;
+        const url = '/comments/getForm';
+		const comment = {};
+		if ($editing) {
+			comment['comment_id'] = e.target.dataset.comment_id;
+		}
+		else {
+			comment['parent_id'] = e.target.dataset.parent_id;
+			comment['blog_id'] = e.target.dataset.blog_id;
+		}
         // -- Get response
         // - Display the form
         let form;
-        makeRequest(url, reply, e.target);
+        makeRequest(url, comment, e.target);
     }
 
-    else if(e.target.classList.contains("cancelForm")) {
+    else if(clist.contains('cancelReplyForm') || clist.contains('cancelEditForm')) {
+        $editing = clist.contains('cancelEditForm');
         e.target.disabled = true;
         // Remove Form
         e.target.parentNode.removeChild(e.target.previousElementSibling);        
         // Toggle button
-        e.target.classList.remove('cancelForm');
-        e.target.classList.add('renderForm');
-        e.target.innerHTML = 'Reply';
+        e.target.classList.remove($editing ? 'cancelEditForm' : 'cancelReplyForm');
+        e.target.classList.add($editing ? 'renderEditForm' : 'renderReplyForm');
+        e.target.innerHTML = $editing ? 'Edit' : 'Reply';
 
         e.target.disabled = false;
     }

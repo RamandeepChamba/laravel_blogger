@@ -1,14 +1,25 @@
 <form action="{{ route('comments.store') }}" method="POST" 
-    name="{{ isset($parent_id) ? 'reply' : 'comment' }}">
+    name="{{ isset($comment->parent_id) ? 'reply' : (isset($comment->id) ? 'edit' : 'comment') }}">
     @csrf
-    <input type="text" name="blog_id" 
-        value="{{ $blog_id }}" hidden>
-    @if (isset($parent_id))
-        <input type="text" name="parent_id"
-        value="{{ $parent_id }}" hidden>
+    @if (isset($comment->id))
+        @method('PATCH')
+        <input type="text" name="comment_id" 
+            value="{{ $comment->id }}" hidden>
     @endif
-    <textarea name="comment" cols="30" rows="10"
+    <input type="text" name="comment[blog_id]" 
+        value="{{ $comment->blog_id }}" hidden>
+    @if (isset($comment->parent_id))
+        <input type="text" name="comment[parent_id]"
+        value="{{ $comment->parent_id }}" hidden>
+    @endif
+    <textarea name="comment[comment]" cols="30" rows="10"
         placeholder="Add your comment here" 
-        maxlength="250" required></textarea>
-    <button type="submit">{{ isset($parent_id) ? 'Reply' : 'Comment' }}</button>
+        maxlength="250" required>{{ $comment->comment ?? '' }}</textarea>
+    <button type="submit" class="btn btn-secondary">
+        @if(isset($comment->id))
+            Edit
+        @else
+            {{ isset($comment->parent_id) ? 'Reply' : 'Comment' }}
+        @endif
+    </button>
 </form>

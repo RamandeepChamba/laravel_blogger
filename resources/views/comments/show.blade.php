@@ -13,7 +13,7 @@
             <input type="text" name="comment_id" 
                 value="{{ $comment->id }}" hidden>
             <input type="text" name="blog_id" 
-                value="{{ $comment->blog->id }}" hidden>
+                value="{{ $blog->id }}" hidden>
             @if ($comment->likes->contains('user_id', auth()->user()->id))
                 <button type="submit" class="btn btn-warning">
                     Dislike
@@ -31,8 +31,19 @@
             <a href="/comments/delete/{{ $comment->id }}" class="btn btn-danger">Delete</a>
         @endif
 
+        <!-- Edit form  -->
+        @if(auth()->user()->id == $comment->user->id)
+            <button class="renderEditForm btn btn-secondary"
+                data-comment_id="{{ $comment->id }}">
+                Edit
+            </button>
+        @endif
+
+        <br>
+
         <!-- Reply Form -->
-        <button class="renderForm btn btn-secondary" data-blog_id="{{ $blog_id }}"
+        <button class="renderReplyForm btn btn-secondary" 
+            data-blog_id="{{ $blog->id }}"
             data-parent_id="{{ $comment->id }}">
             Reply
         </button>
@@ -42,8 +53,7 @@
         <ul class="replies">
             @include('comments.show', 
                 [
-                    'comments' => $comment->replies,
-                    'parent_id' => $comment->id
+                    'comments' => $comment->replies
                 ])
         </ul>
         @endif

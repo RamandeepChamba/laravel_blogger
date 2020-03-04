@@ -21,4 +21,9 @@ class Like extends Model
     {
         return $this->belongsTo('App\Comment');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
